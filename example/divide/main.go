@@ -3,7 +3,7 @@ package divide
 import (
 	"fmt"
 
-	"github.com/Robert-MacWha/safe/pkg/safe"
+	"github.com/robert-macwha/safe/pkg/safe"
 )
 
 func SafeDivide(a, b int) safe.Result[int] {

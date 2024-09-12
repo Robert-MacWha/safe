@@ -4,7 +4,7 @@ import (
 	"io"
 	"os"
 
-	"github.com/Robert-MacWha/safe/pkg/safe"
+	"github.com/robert-macwha/safe/pkg/safe"
 )
 
 func SafeIoRead(path string) (res safe.Result[string]) {
