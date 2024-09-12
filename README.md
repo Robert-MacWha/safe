@@ -18,13 +18,43 @@ go get github.com/robert-macwha/safe
 
 ### Linter Install
 
-Install the package with go get, then add the following to yuor .golangci.yml config file
+This linter can be installed as a golangci-lint plugin. Make sure you have golangci-lint installed.
+
+1. Create a `.custom-gcl.yml` file with the following contents.
+
+```yml
+version: v1.57.0
+plugins:
+    - module: "github.com/robert-macwha/safe"
+      import: "github.com/robert-macwha/safe/cmd/gcl"
+      version: v0.0.4
+```
+
+2. Update your `.golangci.yml` file to include the safe plugin.
 
 ```yml
 linters-settings:
     custom:
         safelint:
-            path: github.com/robert-macwha/safe
+            type: "module"
+            description: "Linter for `robert-macwha/safe` package"
+```
+
+3. Build the custom instance of golangci-lint with the following command, creating a `custom-gcl` file.
+
+```bash
+golangci-lint custom
+```
+
+4. If using vscode, update the workspace's settings.json to point to the new golangci-lint binary.
+
+```json
+{
+    "go.lintTool": "golangci-lint",
+    "go.alternateTools": {
+        "golangci-lint": "${workspaceRoot}/custom-gcl"
+    }
+}
 ```
 
 ## Types
