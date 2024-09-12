@@ -1,4 +1,4 @@
-package main
+package gcl
 
 import (
 	"github.com/golangci/plugin-module-register/register"
