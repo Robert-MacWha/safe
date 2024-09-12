@@ -46,6 +46,8 @@ func Err[T any](err error) Result[T] {
 	}
 }
 
+// Res returns a result from data and an error.  Helpful for converting results
+// from normal functions to safe results.
 func Res[T any](data T, err error) Result[T] {
 	if err != nil {
 		return Err[T](err)
