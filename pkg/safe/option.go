@@ -6,74 +6,61 @@ import (
 	"strings"
 )
 
-// Option is a generic rust-like Option type.
-type Option[T any] interface {
-	// IsSome returns true if the Option is Some.
-	IsSome() bool
-	// IsNone returns true if the Option is None.
-	IsNone() bool
-	// Unwrap returns the data if the Option is Some, panics if the Option is None.
-	Unwrap() T
-	// UnwrapOr returns the data if the Option is Some, otherwise returns the
-	// default value.
-	UnwrapOr(def T) T
-}
-
-type option[T any] struct {
-	Value *T `json:"value,omitempty" bson:"value,omitempty" rethinkdb:"value,omitempty" yaml:"value,omitempty"`
+type Option[T any] struct {
+	Value *T `json:"value,omitempty" bson:"value,omitempty" rethinkdb:"value,omitempty"`
 }
 
 // Some returns a Some Option.
 func Some[T any](data T) Option[T] {
-	return &option[T]{
+	return Option[T]{
 		Value: &data,
 	}
 }
 
 // None returns a None Option.
 func None[T any]() Option[T] {
-	return &option[T]{
+	return Option[T]{
 		Value: nil,
 	}
 }
 
-func (o option[T]) IsSome() bool {
+func (o Option[T]) IsSome() bool {
 	return o.Value != nil
 }
 
-func (o option[T]) IsNone() bool {
+func (o Option[T]) IsNone() bool {
 	return o.Value == nil
 }
 
-func (o option[T]) Unwrap() T {
+func (o Option[T]) Unwrap() T {
 	if o.IsNone() {
 		panic(unwrapError{fmt.Errorf("attempted to unwrap None")})
 	}
 	return *o.Value
 }
 
-func (o option[T]) UnwrapOr(def T) T {
+func (o Option[T]) UnwrapOr(def T) T {
 	if o.IsNone() {
 		return def
 	}
 	return *o.Value
 }
 
-func (o option[T]) String() string {
+func (o Option[T]) String() string {
 	if o.IsNone() {
 		return "None"
 	}
 	return fmt.Sprintf("Some(%v)", *o.Value)
 }
 
-func (o option[T]) MarshalJSON() ([]byte, error) {
+func (o Option[T]) MarshalJSON() ([]byte, error) {
 	if o.IsNone() {
 		return []byte("{}"), nil
 	}
 	return json.Marshal(o.Value)
 }
 
-func (o *option[T]) UnmarshalJSON(data []byte) error {
+func (o *Option[T]) UnmarshalJSON(data []byte) error {
 	var result T
 	if err := json.Unmarshal(data, &result); err != nil {
 		if strings.HasPrefix(string(data), "{}") {

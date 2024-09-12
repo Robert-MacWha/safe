@@ -15,6 +15,6 @@ func Handle[T any](res *Result[T]) {
 			panic(err)
 		}
 
-		*res = result[T]{err: err.err}
+		*res = Result[T]{err: err.err}
 	}
 }
