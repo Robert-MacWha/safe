@@ -1,0 +1,40 @@
+name: Build Safe Linter
+
+on:
+    push:
+        branches:
+            - main
+    pull_request:
+        branches:
+            - main
+
+jobs:
+    build:
+        name: Build and Test Linter
+        runs-on: ubuntu-latest
+
+        steps:
+            # Checkout the repository
+            - name: Checkout code
+              uses: actions/checkout@v3
+
+            # Set up Go environment
+            - name: Set up Go
+              uses: actions/setup-go@v4
+              with:
+                  go-version: "1.22.3"
+
+            # Install dependencies
+            - name: Install dependencies
+              run: go mod tidy
+
+            # Build the linter
+            - name: Build the linter
+              run: go build -o safelinter ./cmd/safelinter
+
+            # Optionally, you can upload the build artifact
+            - name: Upload build artifact
+              uses: actions/upload-artifact@v3
+              with:
+                  name: safelinter
+                  path: safelinter
