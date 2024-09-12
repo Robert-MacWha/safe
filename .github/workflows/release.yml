@@ -21,7 +21,7 @@ jobs:
               run: go mod tidy
 
             - name: Build the linter
-              run: go build -v -o ./safelint ./cmd/safelint
+              run: go build -v -o ./safelinter ./cmd/safelint
 
             - name: List files after build (debug)
               run: ls -l
@@ -29,4 +29,4 @@ jobs:
             - name: Upload release assets
               uses: softprops/action-gh-release@v2
               with:
-                  files: ./safelint
+                  files: ./safelinter
