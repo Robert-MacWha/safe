@@ -1,4 +1,4 @@
-module github.com/Skylock-ai/safe
+module github.com/Robert-MacWha/safe
 
 go 1.22.3
 
