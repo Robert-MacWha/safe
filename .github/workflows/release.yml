@@ -21,12 +21,9 @@ jobs:
               run: go mod tidy
 
             - name: Build the linter
-              run: go build -o safelint ./cmd/safelint
+              run: go build -o -v safelint ./cmd/safelint
 
             - name: Upload release assets
-              uses: actions/upload-release-asset@v1
+              uses: softprops/action-gh-release@v2
               with:
-                  upload_url: ${{ github.event.release.upload_url }}
-                  asset_path: ./safelint
-                  asset_name: safelint
-                  asset_content_type: application/octet-stream
+                  files: safelint

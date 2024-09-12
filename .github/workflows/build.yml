@@ -26,10 +26,10 @@ jobs:
               run: go mod tidy
 
             - name: Build the linter
-              run: go build -o safelint ./cmd/safelint
+              run: go build -o -v safelint ./cmd/safelint
 
             - name: Upload build artifact
-              uses: actions/upload-artifact@v3
+              uses: actions/upload-artifact@v4
               with:
                   name: safelint
                   path: safelint
