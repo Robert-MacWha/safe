@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/robert-macwha/safe/safelint"
+	"github.com/robert-macwha/safe/internal/safelint"
 	"golang.org/x/tools/go/analysis/multichecker"
 )
 
