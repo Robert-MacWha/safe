@@ -1,4 +1,4 @@
-module github.com/Robert-MacWha/safe
+module github.com/robert-macwha/safe
 
 go 1.22.3
 
