@@ -83,3 +83,10 @@ func (r result[T]) UnwrapErr() error {
 	}
 	return r.err
 }
+
+func (r result[T]) String() string {
+	if r.IsOk() {
+		return fmt.Sprintf("Ok(%v)", r.data)
+	}
+	return fmt.Sprintf("Err(%v)", r.err)
+}
