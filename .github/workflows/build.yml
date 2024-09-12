@@ -30,7 +30,7 @@ jobs:
 
             # Build the linter
             - name: Build the linter
-              run: go build -o safelinter ./cmd/safelinter
+              run: go build -o safelinter ./cmd/safelint
 
             # Optionally, you can upload the build artifact
             - name: Upload build artifact
