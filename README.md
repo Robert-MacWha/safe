@@ -13,7 +13,7 @@ Helpful for more consise error-handling and letting you return instances instead
 ## Install
 
 ```
-go get github.com/Robert-MacWha/safe
+go get github.com/robert-macwha/safe
 ```
 
 ### Linter Install
@@ -24,7 +24,7 @@ Install the package with go get, then add the following to yuor .golangci.yml co
 linters-settings:
     custom:
         safelint:
-            path: github.com/Robert-MacWha/safe
+            path: github.com/robert-macwha/safe
 ```
 
 ## Types
