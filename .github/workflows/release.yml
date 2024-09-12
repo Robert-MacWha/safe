@@ -1,16 +1,11 @@
-name: Build Safe Linter
+name: Build and Release Custom Linter
 
 on:
-    push:
-        branches:
-            - main
-    pull_request:
-        branches:
-            - main
+    release:
+        types: [created]
 
 jobs:
     build:
-        name: Build and Test Linter
         runs-on: ubuntu-latest
 
         steps:
@@ -28,8 +23,10 @@ jobs:
             - name: Build the linter
               run: go build -o safelint ./cmd/safelint
 
-            - name: Upload build artifact
-              uses: actions/upload-artifact@v3
+            - name: Upload release assets
+              uses: actions/upload-release-asset@v1
               with:
-                  name: safelint
-                  path: safelint
+                  upload_url: ${{ github.event.release.upload_url }}
+                  asset_path: ./safelint
+                  asset_name: safelint
+                  asset_content_type: application/octet-stream
