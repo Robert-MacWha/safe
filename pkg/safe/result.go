@@ -17,12 +17,12 @@ type Result[T any] interface {
 	IsErr() bool
 	// Unwrap returns the data if the Result is Ok, panics if the Result is Err.
 	Unwrap() T
+	// UnwrapFmt returns the data if Result is Ok, panics with a formatted error
+	// message if the Result is Err.
+	UnwrapFmt(s string) T
 	// UnwrapErr returns the error if the Result is Err, panics if the Result
 	// is Ok.
 	UnwrapErr() error
-	// UnwrapFmt returns a formatted error if the Result is Err, panics if the
-	// Result is Ok.
-	UnwrapFmt(s string) error
 }
 
 // Ok returns an ok Result.
@@ -46,9 +46,9 @@ func Err[T any](err error) Result[T] {
 	}
 }
 
-// Res returns a result from data and an error.  Helpful for converting results
+// AsResult returns a result from data and an error.  Helpful for converting results
 // from normal functions to safe results.
-func Res[T any](data T, err error) Result[T] {
+func AsResult[T any](data T, err error) Result[T] {
 	if err != nil {
 		return Err[T](err)
 	}
@@ -70,16 +70,16 @@ func (r result[T]) Unwrap() T {
 	return r.data
 }
 
+func (r result[T]) UnwrapFmt(s string) T {
+	if r.IsErr() {
+		panic(unwrapError{fmt.Errorf("result is Ok")})
+	}
+	return r.data
+}
+
 func (r result[T]) UnwrapErr() error {
 	if r.IsOk() {
 		panic(unwrapError{fmt.Errorf("result is Ok")})
 	}
 	return r.err
-}
-
-func (r result[T]) UnwrapFmt(s string) error {
-	if r.IsOk() {
-		panic(unwrapError{fmt.Errorf("result is Ok")})
-	}
-	return fmt.Errorf(s, r.err)
 }

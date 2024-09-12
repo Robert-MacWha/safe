@@ -10,10 +10,10 @@ import (
 func SafeIoRead(path string) (res safe.Result[string]) {
 	safe.Handle(&res)
 
-	file := safe.Res(os.Open(path)).Unwrap()
+	file := safe.AsResult(os.Open(path)).Unwrap()
 	defer file.Close()
 
-	contents := safe.Res(io.ReadAll(file)).Unwrap()
+	contents := safe.AsResult(io.ReadAll(file)).Unwrap()
 	return safe.Ok(string(contents))
 }
 
