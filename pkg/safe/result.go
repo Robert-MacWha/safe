@@ -39,14 +39,17 @@ func AsResult[T any](data T, err error) Result[T] {
 	return Ok[T](data)
 }
 
+// IsOk returns true if the Result is ok.
 func (r Result[T]) IsOk() bool {
 	return r.err == nil
 }
 
+// IsErr returns true if the Result is an error.
 func (r Result[T]) IsErr() bool {
 	return r.err != nil
 }
 
+// Unwrap returns the value of an ok Result or panics if the Result is an error.
 func (r Result[T]) Unwrap() T {
 	if r.IsErr() {
 		panic(unwrapError{r.err})
@@ -54,13 +57,15 @@ func (r Result[T]) Unwrap() T {
 	return r.data
 }
 
-func (r Result[T]) UnwrapFmt(s string) T {
+// Expect returns the value of an ok Result or panics with a custom error if the Result is an error.
+func (r Result[T]) Expect(s string) T {
 	if r.IsErr() {
 		panic(unwrapError{fmt.Errorf("result is Ok")})
 	}
 	return r.data
 }
 
+// UnwrapErr returns the error of an errored Result or panics if the Result is ok.
 func (r Result[T]) UnwrapErr() error {
 	if r.IsOk() {
 		panic(unwrapError{fmt.Errorf("result is Ok")})
@@ -68,9 +73,10 @@ func (r Result[T]) UnwrapErr() error {
 	return r.err
 }
 
+// String returns a string representation of the Result.
 func (r Result[T]) String() string {
 	if r.IsOk() {
-		return fmt.Sprintf("Ok(%v)", r.data)
+		return fmt.Sprintf("Ok(%s)", r.data)
 	}
-	return fmt.Sprintf("Err(%v)", r.err)
+	return fmt.Sprintf("Err(%s)", r.err)
 }

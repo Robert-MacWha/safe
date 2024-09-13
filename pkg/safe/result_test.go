@@ -34,14 +34,14 @@ func TestErr_Nil(t *testing.T) {
 	assert.Equal(t, "Err called with nil error", result.UnwrapErr().Error())
 }
 
-func TestUnwrapFmt_OK(t *testing.T) {
+func TestExpect_OK(t *testing.T) {
 	result := Ok(1)
-	assert.Equal(t, 1, result.UnwrapFmt("error"))
+	assert.Equal(t, 1, result.Expect("error"))
 }
 
-func TestUnwrapFmt_Err(t *testing.T) {
+func TestExpect_Err(t *testing.T) {
 	result := Err[int](fmt.Errorf("error"))
 	assert.Panics(t, func() {
-		_ = result.UnwrapFmt("error: %w")
+		_ = result.Expect("error: %w")
 	})
 }
