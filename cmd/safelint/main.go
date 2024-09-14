@@ -6,5 +6,5 @@ import (
 )
 
 func main() {
-	multichecker.Main(safelint.UnwrapFmtAnalyzer, safelint.SafeHandlerAnalyzer)
+	multichecker.Main(safelint.SafeHandlerAnalyzer)
 }

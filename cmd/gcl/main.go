@@ -19,7 +19,6 @@ func New(settings any) (register.LinterPlugin, error) {
 
 func (f *Plugin) BuildAnalyzers() ([]*analysis.Analyzer, error) {
 	return []*analysis.Analyzer{
-		safelint.UnwrapFmtAnalyzer,
 		safelint.SafeHandlerAnalyzer,
 	}, nil
 }

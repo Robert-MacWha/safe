@@ -115,10 +115,6 @@ func MapResultOr[T any, U any](r Result[T], def U, f func(T) U) U
 
 SafeLint is a linter designed for this package to ensure correct usage.
 
-### UnwrapFmtAnalyzer
-
-UnwrapFmtAnalyzer is a linter that checks whether the string passed to Result's `UnwrapFmt` function has a single "`%w`"verb.
-
 ### SafeHandlerAnalyzer
 
 SafeHandlerAnalyzer is a linter that ensures `safe.Handle` is called before unwrapping any results or options.
