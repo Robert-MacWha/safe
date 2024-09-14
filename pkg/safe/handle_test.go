@@ -7,7 +7,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-// Tests handle with a panic caused by calling Unwrap on an errored Result
+// Tests handle with a panic caused by calling Unwrap on an errored Result.
 func TestHandle_Result(t *testing.T) {
 	var result Result[int]
 
@@ -21,7 +21,7 @@ func TestHandle_Result(t *testing.T) {
 
 	// Assert that the panic was caught and handled
 	assert.False(t, result.IsOk())
-	assert.Equal(t, "errUnwrap", result.UnwrapErr().Error())
+	assert.Equal(t, "called `Unwrap` on an `Err` value", result.UnwrapErr().Error())
 }
 
 func TestHandle_Option(t *testing.T) {
@@ -47,7 +47,7 @@ func TestHandle_Panic(t *testing.T) {
 	assert.Panics(t, func() {
 		defer Handle(&result)
 
-		// simulate a panic
+		// simulate a panic, asserting that it falls through
 		panic("panic")
 	})
 }

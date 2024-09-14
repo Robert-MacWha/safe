@@ -1,6 +1,7 @@
 package safe
 
 import (
+	"errors"
 	"fmt"
 )
 
@@ -20,7 +21,7 @@ func Ok[T any](data T) Result[T] {
 // Err returns an errored Result.
 func Err[T any](err error) Result[T] {
 	if err == nil {
-		err = fmt.Errorf("Err called with nil error")
+		err = errors.New("Err called with nil error")
 	}
 
 	var t T
@@ -50,9 +51,9 @@ func (r Result[T]) IsErr() bool {
 }
 
 // Expect returns the value of an ok Result or panics with a custom error if the Result is an error.
-func (r Result[T]) Expect(s string) T {
+func (r Result[T]) Expect(msg string) T {
 	if r.IsErr() {
-		panic(unwrapError{fmt.Errorf("result is Ok")})
+		panic(unwrapError{errors.New(msg)})
 	}
 	return r.data
 }
@@ -73,7 +74,7 @@ func (r Result[T]) UnwrapOr(def T) T {
 // UnwrapErr returns the error of an errored Result or panics if the Result is ok.
 func (r Result[T]) UnwrapErr() error {
 	if r.IsOk() {
-		panic(unwrapError{fmt.Errorf("result is Ok")})
+		panic(unwrapError{errors.New("result is Ok")})
 	}
 	return r.err
 }
