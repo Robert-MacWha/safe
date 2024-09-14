@@ -40,11 +40,11 @@ func TestOption_IsNone(t *testing.T) {
 
 func TestOption_Expect(t *testing.T) {
 	s := Some(1)
-	assert.Equal(t, 1, s.Expect(nil))
+	assert.Equal(t, 1, s.Expect("Error"))
 
 	n := None[int]()
 	assert.Panics(t, func() {
-		_ = n.Expect(nil)
+		_ = n.Expect("Error")
 	})
 }
 

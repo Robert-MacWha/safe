@@ -2,6 +2,7 @@ package safe
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"strings"
 )
@@ -35,16 +36,16 @@ func (o Option[T]) IsNone() bool {
 }
 
 // Expect returns the value of a Some Option or panics with a custom error if the Option is a None.
-func (o Option[T]) Expect(err error) T {
+func (o Option[T]) Expect(msg string) T {
 	if o.IsNone() {
-		panic(unwrapError{err})
+		panic(unwrapError{errors.New(msg)})
 	}
 	return *o.Value
 }
 
 // Unwrap returns the value of a Some Option or panics if the Option is a None.
 func (o Option[T]) Unwrap() T {
-	return o.Expect(fmt.Errorf("called `Unwrap` on `None` value"))
+	return o.Expect("called `Unwrap` on `None` value")
 }
 
 // UnwrapOr returns the value of a Some Option or a default value if the Option is a None.
