@@ -27,7 +27,7 @@ func Err[T any](err error) Result[T]
 // from normal functions to safe results.
 func AsResult[T any](data T, err error) Result[T]
 
-type Result[T any] struct {
+type Result[T any] interface {
 	// IsOk returns true if the Result is ok.
 	IsOk() bool
 
@@ -61,7 +61,7 @@ func Some[T any](data T) Option[T]
 // None returns a None Option.
 func None[T any]() Option[T]
 
-type Option[T any] struct {
+type Option[T any] interface {
 	// IsSome returns true if the Option is a Some.
 	IsSome() bool
 
