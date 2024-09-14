@@ -49,18 +49,23 @@ func (r Result[T]) IsErr() bool {
 	return r.err != nil
 }
 
-// Unwrap returns the value of an ok Result or panics if the Result is an error.
-func (r Result[T]) Unwrap() T {
-	if r.IsErr() {
-		panic(unwrapError{r.err})
-	}
-	return r.data
-}
-
 // Expect returns the value of an ok Result or panics with a custom error if the Result is an error.
 func (r Result[T]) Expect(s string) T {
 	if r.IsErr() {
 		panic(unwrapError{fmt.Errorf("result is Ok")})
+	}
+	return r.data
+}
+
+// Unwrap returns the value of an ok Result or panics if the Result is an error.
+func (r Result[T]) Unwrap() T {
+	return r.Expect("called `Unwrap` on an `Err` value")
+}
+
+// UnwrapOr returns the value of an ok Result or a default value if the Result is an error.
+func (r Result[T]) UnwrapOr(def T) T {
+	if r.IsErr() {
+		return def
 	}
 	return r.data
 }
@@ -76,7 +81,7 @@ func (r Result[T]) UnwrapErr() error {
 // String returns a string representation of the Result.
 func (r Result[T]) String() string {
 	if r.IsOk() {
-		return fmt.Sprintf("Ok(%s)", r.data)
+		return fmt.Sprintf("Ok(%v)", r.data)
 	}
 	return fmt.Sprintf("Err(%s)", r.err)
 }

@@ -37,7 +37,7 @@ func TestHandle_Option(t *testing.T) {
 
 	// Assert that the panic was caught and handled
 	assert.False(t, result.IsOk())
-	assert.Equal(t, "attempted to unwrap None", result.UnwrapErr().Error())
+	assert.Equal(t, "called `Unwrap` on `None` value", result.UnwrapErr().Error())
 }
 
 // Tests handle with a panic unrelated to the safe package

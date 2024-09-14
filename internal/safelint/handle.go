@@ -126,7 +126,7 @@ func isUnwrapCall(callExpr *ast.CallExpr) bool {
 	}
 
 	funcName := sel.Sel.Name
-	return funcName == "Unwrap" || funcName == "UnwrapErr" || funcName == "UnwrapFmt"
+	return funcName == "Unwrap" || funcName == "UnwrapErr" || funcName == "Expect"
 }
 
 // Helper function to determine if a file is a test file

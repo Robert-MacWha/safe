@@ -44,7 +44,7 @@ func (o Option[T]) Expect(err error) T {
 
 // Unwrap returns the value of a Some Option or panics if the Option is a None.
 func (o Option[T]) Unwrap() T {
-	return o.Expect(fmt.Errorf("called `Unwrap` on a `None` value"))
+	return o.Expect(fmt.Errorf("called `Unwrap` on `None` value"))
 }
 
 // UnwrapOr returns the value of a Some Option or a default value if the Option is a None.
@@ -53,14 +53,6 @@ func (o Option[T]) UnwrapOr(def T) T {
 		return def
 	}
 	return *o.Value
-}
-
-// Map applies a function to the value of a Some Option and returns a new Option.
-func (o Option[T]) Map(f func(T) T) Option[T] {
-	if o.IsNone() {
-		return None[T]()
-	}
-	return Some(f(*o.Value))
 }
 
 // Ok returns a Result containing the value of a Some Option or an error if the Option is a None.
@@ -76,7 +68,7 @@ func (o Option[T]) String() string {
 	if o.IsNone() {
 		return "None"
 	}
-	return fmt.Sprintf("Some(%s)", *o.Value)
+	return fmt.Sprintf("Some(%v)", *o.Value)
 }
 
 func (o Option[T]) MarshalJSON() ([]byte, error) {
