@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"reflect"
 	"strings"
 )
 
@@ -33,6 +34,19 @@ func (o Option[T]) IsSome() bool {
 // IsNone returns true if the Option is a None.
 func (o Option[T]) IsNone() bool {
 	return o.Value == nil
+}
+
+// Eq returns true if two Options are equal.
+//
+// Options are equal if both are Some and their values are DeepEqual, or if both are None.
+func (o Option[T]) Eq(other Option[T]) bool {
+	if o.IsNone() && other.IsNone() {
+		return true
+	}
+	if o.IsSome() && other.IsSome() {
+		return reflect.DeepEqual(o.Value, other.Value)
+	}
+	return false
 }
 
 // Expect returns the value of a Some Option or panics with a custom error if the Option is a None.

@@ -3,6 +3,7 @@ package safe
 import (
 	"errors"
 	"fmt"
+	"reflect"
 )
 
 type Result[T any] struct {
@@ -50,17 +51,34 @@ func (r Result[T]) IsErr() bool {
 	return r.err != nil
 }
 
+// Eq returns true if two Results are equal.
+//
+// Results are equal if both are ok and their data are DeepEqual, or if both are
+// errors and their error messages are equal.
+func (r Result[T]) Eq(other Result[T]) bool {
+	if r.IsOk() && other.IsOk() {
+		return reflect.DeepEqual(r.data, other.data)
+	}
+	if r.IsErr() && other.IsErr() {
+		return r.err.Error() == other.err.Error()
+	}
+	return false
+}
+
 // Expect returns the value of an ok Result or panics with a custom error if the Result is an error.
 func (r Result[T]) Expect(msg string) T {
 	if r.IsErr() {
-		panic(unwrapError{errors.New(msg)})
+		panic(unwrapError{fmt.Errorf(msg+": %w", r.err)})
 	}
 	return r.data
 }
 
 // Unwrap returns the value of an ok Result or panics if the Result is an error.
 func (r Result[T]) Unwrap() T {
-	return r.Expect("called `Unwrap` on an `Err` value")
+	if r.IsErr() {
+		panic(unwrapError{r.err})
+	}
+	return r.data
 }
 
 // UnwrapOr returns the value of an ok Result or a default value if the Result is an error.
@@ -82,7 +100,7 @@ func (r Result[T]) UnwrapErr() error {
 // String returns a string representation of the Result.
 func (r Result[T]) String() string {
 	if r.IsOk() {
-		return fmt.Sprintf("Ok(%v)", r.data)
+		return fmt.Sprintf("Ok(%+v)", r.data)
 	}
 	return fmt.Sprintf("Err(%s)", r.err)
 }
