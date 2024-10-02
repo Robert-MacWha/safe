@@ -32,13 +32,13 @@ func Err[T any](err error) Result[T] {
 	}
 }
 
-// AsResult returns a result from data and an error.  Helpful for converting results
+// As returns a result from data and an error.  Helpful for converting results
 // from normal functions to safe results.
-func AsResult[T any](data T, err error) Result[T] {
+func As[T any](data T, err error) Result[T] {
 	if err != nil {
 		return Err[T](err)
 	}
-	return Ok[T](data)
+	return Ok(data)
 }
 
 // IsOk returns true if the Result is ok.

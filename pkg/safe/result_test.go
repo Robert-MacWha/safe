@@ -24,11 +24,11 @@ func TestErr(t *testing.T) {
 
 func TestAsResult(t *testing.T) {
 	// Test for OK
-	result := AsResult(1, nil)
+	result := As(1, nil)
 	assert.Equal(t, 1, result.Unwrap())
 
 	// Test for Err
-	result = AsResult(1, fmt.Errorf("error"))
+	result = As(1, fmt.Errorf("error"))
 	assert.Equal(t, "error", result.UnwrapErr().Error())
 }
 
