@@ -76,7 +76,7 @@ func (r Result[T]) Expect(msg string) T {
 // Unwrap returns the value of an ok Result or panics if the Result is an error.
 func (r Result[T]) Unwrap() T {
 	if r.IsErr() {
-		panic(unwrapError{r.err})
+		r.Expect("Unwrap")
 	}
 	return r.data
 }
