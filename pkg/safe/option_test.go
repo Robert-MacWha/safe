@@ -82,6 +82,18 @@ func TestOption_String(t *testing.T) {
 	assert.Equal(t, "None", n.String())
 }
 
+func TestOption_Decompose(t *testing.T) {
+	s := Some(1)
+	v, ok := s.Decompose()
+	assert.True(t, ok)
+	assert.Equal(t, 1, v)
+
+	n := None[int]()
+	v, ok = n.Decompose()
+	assert.False(t, ok)
+	assert.Zero(t, v)
+}
+
 func TestOption_MarshalJSON(t *testing.T) {
 	s := Some(1)
 	b, err := s.MarshalJSON()

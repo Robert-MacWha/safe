@@ -97,6 +97,11 @@ func (r Result[T]) UnwrapErr() error {
 	return r.err
 }
 
+// Decompose returns the data and error of a Result.
+func (r Result[T]) Decompose() (T, error) {
+	return r.data, r.err
+}
+
 // String returns a string representation of the Result.
 func (r Result[T]) String() string {
 	if r.IsOk() {

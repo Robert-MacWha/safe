@@ -70,6 +70,13 @@ func (o Option[T]) UnwrapOr(def T) T {
 	return *o.Value
 }
 
+func (o Option[T]) Decompose() (T, bool) {
+	if o.IsNone() {
+		return *new(T), false
+	}
+	return *o.Value, true
+}
+
 // Ok returns a Result containing the value of a Some Option or an error if the Option is a None.
 func (o Option[T]) Ok(err error) Result[T] {
 	if o.IsNone() {
