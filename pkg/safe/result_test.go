@@ -98,6 +98,20 @@ func TestResult_UnwrapErr(t *testing.T) {
 	assert.Equal(t, "error", result.UnwrapErr().Error())
 }
 
+func TestResult_Decompose(t *testing.T) {
+	// Test for OK
+	result := Ok(1)
+	data, err := result.Decompose()
+	assert.Equal(t, 1, data)
+	assert.Nil(t, err)
+
+	// Test for Err
+	result = Err[int](fmt.Errorf("error"))
+	data, err = result.Decompose()
+	assert.Zero(t, data)
+	assert.Equal(t, "error", err.Error())
+}
+
 func TestResult_String(t *testing.T) {
 	// Test for OK
 	result := Ok(1)
