@@ -21,7 +21,7 @@ func TestHandle_Result(t *testing.T) {
 
 	// Assert that the panic was caught and handled
 	assert.False(t, result.IsOk())
-	assert.Equal(t, "called `Unwrap` on an `Err` value", result.UnwrapErr().Error())
+	assert.Equal(t, "Unwrap: errUnwrap", result.UnwrapErr().Error())
 }
 
 func TestHandle_Option(t *testing.T) {
