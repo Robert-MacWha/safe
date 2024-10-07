@@ -66,7 +66,10 @@ func (r Result[T]) Eq(other Result[T]) bool {
 }
 
 // Expect returns the value of an ok Result or panics with a custom error if the Result is an error.
-func (r Result[T]) Expect(msg string) T {
+// Expects printf-style arguments.
+func (r Result[T]) Expect(msg string, a ...any) T {
+	msg = fmt.Sprintf(msg, a...)
+
 	if r.IsErr() {
 		panic(unwrapError{fmt.Errorf(msg+": %w", r.err)})
 	}

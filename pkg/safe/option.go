@@ -50,7 +50,9 @@ func (o Option[T]) Eq(other Option[T]) bool {
 }
 
 // Expect returns the value of a Some Option or panics with a custom error if the Option is a None.
-func (o Option[T]) Expect(msg string) T {
+// Expects printf-style arguments.
+func (o Option[T]) Expect(msg string, a ...any) T {
+	msg = fmt.Sprintf(msg, a...)
 	if o.IsNone() {
 		panic(unwrapError{errors.New(msg)})
 	}
