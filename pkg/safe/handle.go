@@ -6,6 +6,11 @@ type unwrapError struct {
 	err error
 }
 
+// Error returns the error message of the unwrapError
+func (e unwrapError) Error() string {
+	return e.err.Error()
+}
+
 // Handle catches any panic errors issued by the Result and wraps them in a
 // Result
 func Handle[T any](res *Result[T]) {
